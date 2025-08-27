@@ -1,0 +1,48 @@
+# ----------------------------
+# Node / Next.js (frontend)
+# ----------------------------
+node_modules/
+.next/
+out/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+.pnpm-debug.log
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ----------------------------
+# Laravel / PHP (backend)
+# ----------------------------
+vendor/
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn.lock
+.env
+.phpunit.result.cache
+Homestead.yaml
+Homestead.json
+/.idea
+/.vscode
+
+# ----------------------------
+# Logs & Cache (ambos)
+# ----------------------------
+*.log
+*.cache
+*.pid
+*.seed
+*.tmp
+*.temp
+
+# ----------------------------
+# OS files
+# ----------------------------
+.DS_Store
+Thumbs.db
