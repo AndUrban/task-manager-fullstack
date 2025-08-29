@@ -23,7 +23,7 @@ Permite criar usuários, associar tarefas, marcar como concluídas e gerenciar t
 
 ## Estrutura do Projeto
 
-task-manager-fullstack/
+task-manager-fullstack/  
 ├── backend/ # Código do servidor Laravel + SQLite  
 ├── frontend/ # Aplicação React/Next.js  
 └── README.md # Documentação  
