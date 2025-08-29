@@ -16,8 +16,8 @@ export default function Footer() {
     >
       <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>
         © {new Date().getFullYear()} - Seu Projeto |{' '}
-        <Link href="#" underline="hover" color="inherit" sx={{ fontWeight: 'bold' }}>
-          Link 1
+        <Link href="https://github.com/AndUrban/task-manager-fullstack" underline="hover" color="inherit" sx={{ fontWeight: 'bold' }}>
+          Github
         </Link>{' '}
         |{' '}
         <Link href="#" underline="hover" color="inherit" sx={{ fontWeight: 'bold' }}>

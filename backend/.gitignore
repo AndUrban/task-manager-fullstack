@@ -1,24 +1,36 @@
+# Logs e sistema
 *.log
 .DS_Store
+Thumbs.db
+
+# Env
 .env
-.env.backup
-.env.production
-.phpactor.json
-.phpunit.result.cache
+.env.*
+!.env.example
+
+# IDEs e ferramentas
 /.fleet
 /.idea
 /.nova
 /.phpunit.cache
 /.vscode
 /.zed
-/auth.json
+.phpactor.json
+
+# Dependências
 /node_modules
+/vendor
+
+# Laravel
 /public/build
 /public/hot
 /public/storage
 /storage/*.key
 /storage/pail
-/vendor
+
+# PHPUnit
+.phpunit.result.cache
+
+# Homestead
 Homestead.json
 Homestead.yaml
-Thumbs.db
