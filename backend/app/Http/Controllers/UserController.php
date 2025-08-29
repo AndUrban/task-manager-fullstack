@@ -26,14 +26,6 @@ class UserController extends Controller
         return response()->json($user, 201);
     }
 
-    //Listar tarefas de um usuário específico
-    public function tasks($userId)
-    {
-        $user = User::findOrFail($userId);
-        return $user->tasks;
-    }
-
-
     //Excluir usuário
     public function destroy($id)
     {

@@ -15,7 +15,7 @@ interface UserContextType {
   error: string | null;
   deleteUser: (id: number) => Promise<void>;
   createUser: (name: string, email: string) => Promise<void>;
-  fetchUsers: () => Promise<void>; //Para forçar reload manual
+  fetchUsers: () => Promise<void>; //Força reload manual
 }
 
 export const UserContext = createContext<UserContextType | undefined>(undefined);

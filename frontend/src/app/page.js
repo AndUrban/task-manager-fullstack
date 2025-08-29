@@ -2,7 +2,7 @@
 
 import { Box, Button, Typography, Card, CardContent } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { PersonAdd, People, Assignment, TaskAlt } from '@mui/icons-material'; // ícones semelhantes aos da ref
+import { PersonAdd, People, Assignment, TaskAlt } from '@mui/icons-material';
 
 export default function Home() {
   const router = useRouter();
@@ -44,7 +44,7 @@ export default function Home() {
               startIcon={<PersonAdd />}
               onClick={() => router.push('/users/create')}
               sx={{
-                background: 'linear-gradient(90deg, #2563eb, #3b82f6)', // azul gradiente
+                background: 'linear-gradient(90deg, #2563eb, #3b82f6)',
                 '&:hover': { background: 'linear-gradient(90deg, #1e40af, #2563eb)' },
                 fontWeight: 'bold',
               }}
@@ -72,7 +72,7 @@ export default function Home() {
               startIcon={<Assignment />}
               onClick={() => router.push('/tasks/create')}
               sx={{
-                background: 'linear-gradient(90deg, #7e22ce, #9333ea)', // roxo gradiente
+                background: 'linear-gradient(90deg, #7e22ce, #9333ea)',
                 '&:hover': { background: 'linear-gradient(90deg, #6b21a8, #7e22ce)' },
                 fontWeight: 'bold',
               }}

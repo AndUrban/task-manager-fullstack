@@ -4,8 +4,8 @@ export const muiTheme = createTheme({
   palette: {
     mode: "dark",
     background: {
-      default: "#121212", //Fundo principal
-      paper: "#1e1e1e",   //Fundo dos Cards
+      default: "#121212",
+      paper: "#1e1e1e",
     },
     primary: {
       main: "#0070f3",
@@ -28,16 +28,16 @@ export const muiTheme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundColor: "#1e1e1e", //cardBg
+          backgroundColor: "#1e1e1e",
           borderRadius: "8px",
-          boxShadow: "0 4px 8px rgba(0,0,0,0.5)", //Consistente com theme.ts
+          boxShadow: "0 4px 8px rgba(0,0,0,0.5)",
         },
       },
     },
     MuiTextField: {
       styleOverrides: {
         root: {
-          backgroundColor: "#2c2c2c", //inputBg
+          backgroundColor: "#2c2c2c",
           borderRadius: "8px",
         },
       },
@@ -45,15 +45,15 @@ export const muiTheme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          backgroundColor: "#2c2c2c", //inputBg
+          backgroundColor: "#2c2c2c",
           "& fieldset": {
             borderColor: "#2c2c2c",
           },
           "&:hover fieldset": {
-            borderColor: "#0070f3", //hover = azul
+            borderColor: "#0070f3",
           },
           "&.Mui-focused fieldset": {
-            borderColor: "#0070f3", //focus = azul
+            borderColor: "#0070f3",
             boxShadow: "0 0 0 2px rgba(0, 112, 243, 0.3)",
           },
         },

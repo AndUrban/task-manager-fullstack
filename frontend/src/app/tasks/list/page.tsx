@@ -31,7 +31,7 @@ export default function TaskListPage() {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState<{ id: number; descricao: string } | null>(null);
 
-  
+
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   useEffect(() => {
