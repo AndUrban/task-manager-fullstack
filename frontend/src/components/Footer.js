@@ -20,7 +20,7 @@ export default function Footer() {
       }}
     >
       <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>
-        © {new Date().getFullYear()} - Seu Projeto |{' '}
+        © {new Date().getFullYear()} - Projeto Full Stack System |{' '}
         <Link
           href="https://github.com/AndUrban/task-manager-fullstack"
           underline="hover"
@@ -31,12 +31,12 @@ export default function Footer() {
         </Link>{' '}
         |{' '}
         <Link
-          href="#"
+          href="www.linkedin.com/in/andurban"
           underline="hover"
           color="inherit"
           sx={{ fontWeight: 'bold' }}
         >
-          Link 2
+          Linkedin
         </Link>
       </Typography>
     </Box>
