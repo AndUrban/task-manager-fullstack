@@ -8,14 +8,12 @@ services:
     container_name: backend
     ports:
       - "8000:8000"
-    volumes:
-      - ./backend:/var/www/html
     working_dir: /var/www/html
     command: >
       sh -c "php artisan migrate --force &&
+             php artisan config:cache &&
+             php artisan route:cache &&
              php artisan serve --host=0.0.0.0 --port=8000"
-    depends_on:
-      - frontend
 
   frontend:
     build:
@@ -24,11 +22,10 @@ services:
     container_name: frontend
     ports:
       - "3000:3000"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
     working_dir: /app
     command: >
-      sh -c "npm install && npm run dev"
+      sh -c "npm run build && npm run start"
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:8000/api
+      - NEXT_PUBLIC_API_URL=http://backend:8000/api
+    depends_on:
+      - backend

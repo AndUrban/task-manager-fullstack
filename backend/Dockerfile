@@ -1,37 +1,34 @@
-# Imagem base PHP (leve e com suporte a extensões)
+# Etapa 1: Build (instalar dependências com Composer)
+FROM composer:2 AS vendor
+
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# Etapa 2: Runtime (imagem final mais leve)
 FROM php:8.2-cli-alpine
 
-# Instalar dependências do sistema necessárias para SQLite e Composer
+# Instalar dependências mínimas do sistema
 RUN apk add --no-cache \
-    unzip \
-    git \
-    libzip-dev \
     sqlite \
-    sqlite-dev \
     oniguruma-dev \
+    libzip-dev \
     && docker-php-ext-install pdo pdo_sqlite
 
-# Instalar Composer (copiando da imagem oficial do Composer)
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Criar usuário não-root
+RUN adduser -D laraveluser
 
-# Definir diretório de trabalho
 WORKDIR /var/www/html
 
-# Copiar somente os arquivos de dependências primeiro (para otimizar cache)
-COPY composer.json composer.lock ./
-
-# Instalar dependências do Laravel
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+# Copiar dependências já prontas
+COPY --from=vendor /app/vendor ./vendor
 
 # Copiar o restante do código
 COPY . .
 
-# Criar usuário não-root para rodar a aplicação
-RUN adduser -D laraveluser && chown -R laraveluser:laraveluser /var/www/html
 USER laraveluser
 
-# Expor a porta do Laravel
 EXPOSE 8000
 
-# Comando para iniciar o servidor Laravel
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+ENTRYPOINT ["php", "artisan"]
+CMD ["serve", "--host=0.0.0.0", "--port=8000"]
