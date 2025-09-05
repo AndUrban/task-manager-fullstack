@@ -1,48 +1,37 @@
-# Etapa 1: Build da aplicação
-FROM node:20-slim AS builder
+# Etapa 1: Build do frontend
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copiar arquivos de dependências primeiro (cache eficiente)
+# Copiar manifestos primeiro (para cache eficiente)
 COPY package*.json ./
 
-# Instalar dependências usando lockfile (mais seguro e rápido)
-RUN npm ci
+# Configurar registry oficial e instalar dependências
+RUN npm config set registry https://registry.npmjs.org/ \
+    && npm install --legacy-peer-deps
 
 # Copiar o restante do código
 COPY . .
 
-# Build do Next.js em modo produção
+# Build de produção (gera .next, dist, etc)
 RUN npm run build
 
-
-# Etapa 2: Runtime (leve e otimizado)
-FROM node:20-slim
+# Etapa 2: Imagem final para servir o frontend
+FROM node:20-alpine AS runner
 
 WORKDIR /app
 
-# Definir ambiente como produção
+# Copiar apenas o necessário da etapa anterior
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+
+# Definir variáveis de ambiente de produção
 ENV NODE_ENV=production
+ENV PORT=3000
 
-# Instalar apenas "dumb-init" para gerenciamento de processos
-RUN apt-get update && apt-get install -y --no-install-recommends dumb-init \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copiar apenas arquivos necessários do build
-COPY --from=builder /app/package*.json ./ 
-COPY --from=builder /app/.next ./.next 
-COPY --from=builder /app/public ./public 
-COPY --from=builder /app/node_modules ./node_modules 
-COPY --from=builder /app/next.config.js ./next.config.js 
-
-# Criar usuário não-root para segurança
-RUN useradd -m nextuser && chown -R nextuser /app
-USER nextuser
-
-# Expor porta do Next.js
 EXPOSE 3000
 
-ENTRYPOINT ["dumb-init", "--"]
-
-# Rodar Next.js em produção
+# Rodar Next.js no modo standalone
 CMD ["npm", "start"]
