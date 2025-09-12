@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Task;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +13,34 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Criar alguns usuários aleatórios
+        $users = User::factory()->count(3)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Criar um usuário fixo para referência na demo
+        $demoUser = User::factory()->create([
+            'name' => 'Demo User',
+            'email' => 'demo@example.com',
+        ]);
+
+        // Criar tarefas para cada usuário aleatório
+        foreach ($users as $user) {
+            Task::factory()->count(3)->create([
+                'user_id' => $user->id,
+                'estado' => 'pendente',
+            ]);
+        }
+
+        // Criar tarefas específicas para o usuário demo
+        Task::factory()->create([
+            'descricao' => 'Tarefa concluída de exemplo',
+            'estado' => 'feito',
+            'user_id' => $demoUser->id,
+        ]);
+
+        Task::factory()->create([
+            'descricao' => 'Outra tarefa pendente de exemplo',
+            'estado' => 'pendente',
+            'user_id' => $demoUser->id,
         ]);
     }
 }
