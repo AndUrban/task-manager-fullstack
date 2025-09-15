@@ -7,13 +7,13 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    //Listar todas as tarefas com usuário
+    // Listar todas as tarefas com usuário
     public function index()
     {
         return Task::with('user')->get();
     }
 
-    //Criar nova tarefa para um usuário
+    // Criar nova tarefa para um usuário
     public function store(Request $request, $userId)
     {
         $validated = $request->validate([
@@ -21,18 +21,18 @@ class TaskController extends Controller
         ]);
         
         $validated['user_id'] = $userId;
-        $validated['status'] = 'pendente';
+        $validated['estado'] = 'pendente'; // ajustado para "estado"
         
         return Task::create($validated);
     }
 
-    //Listar tarefas de um usuário específico (com ID)
+    // Listar tarefas de um usuário específico (com ID)
     public function allTasks()
     {
         return Task::with('user')->get();
     }
 
-    //Excluir tarefa
+    // Excluir tarefa
     public function destroy($taskId)
     {
         $task = Task::findOrFail($taskId);
@@ -41,19 +41,18 @@ class TaskController extends Controller
         return response()->json(['message' => 'Tarefa excluída com sucesso']);
     }
 
-    //Alterar/Atualizar status da tarefa
-    public function updateStatus(Request $request, $id)
+    // Alterar/Atualizar estado da tarefa
+    public function updateEstado(Request $request, $id)
     {
         $task = Task::findOrFail($id);
 
         $request->validate([
-            'status' => 'required|in:pendente,feito',
+            'estado' => 'required|in:pendente,feito',
         ]);
 
-        $task->status = $request->status;
+        $task->estado = $request->estado;
         $task->save();
 
         return response()->json($task);
     }
-
 }
