@@ -9,7 +9,7 @@ class Task extends Model
 {
     use HasFactory;
 
-    protected static $factory = \Database\Factories\TaskFactory::class;
+    //protected static $factory = \Database\Factories\TaskFactory::class;
 
     protected $fillable = ['descricao', 'estado', 'user_id'];
 

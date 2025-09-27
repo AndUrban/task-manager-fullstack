@@ -21,12 +21,12 @@ class TaskController extends Controller
         ]);
         
         $validated['user_id'] = $userId;
-        $validated['estado'] = 'pendente'; // ajustado para "estado"
+        $validated['status'] = 'pendente'; // agora "status"
         
         return Task::create($validated);
     }
 
-    // Listar tarefas de um usuário específico (com ID)
+    // Listar todas as tarefas (com usuário)
     public function allTasks()
     {
         return Task::with('user')->get();
@@ -41,16 +41,16 @@ class TaskController extends Controller
         return response()->json(['message' => 'Tarefa excluída com sucesso']);
     }
 
-    // Alterar/Atualizar estado da tarefa
-    public function updateEstado(Request $request, $id)
+    // Alterar/Atualizar status da tarefa
+    public function updateStatus(Request $request, $id)
     {
         $task = Task::findOrFail($id);
 
         $request->validate([
-            'estado' => 'required|in:pendente,feito',
+            'status' => 'required|in:pendente,feito',
         ]);
 
-        $task->estado = $request->estado;
+        $task->status = $request->status;
         $task->save();
 
         return response()->json($task);
