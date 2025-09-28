@@ -11,7 +11,7 @@ class Task extends Model
 
     //protected static $factory = \Database\Factories\TaskFactory::class;
 
-    protected $fillable = ['descricao', 'estado', 'user_id'];
+    protected $fillable = ['descricao', 'status', 'user_id'];
 
     public function user()
     {

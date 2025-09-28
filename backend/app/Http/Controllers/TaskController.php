@@ -19,17 +19,11 @@ class TaskController extends Controller
         $validated = $request->validate([
             'descricao' => 'required|string|max:255',
         ]);
-        
-        $validated['user_id'] = $userId;
-        $validated['status'] = 'pendente'; // agora "status"
-        
-        return Task::create($validated);
-    }
 
-    // Listar todas as tarefas (com usuário)
-    public function allTasks()
-    {
-        return Task::with('user')->get();
+        $validated['user_id'] = $userId;
+        $validated['status'] = 'pendente';
+
+        return Task::create($validated);
     }
 
     // Excluir tarefa
