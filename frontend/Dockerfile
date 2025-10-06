@@ -1,37 +1,46 @@
+# ==========================
 # Etapa 1: Build do frontend
+# ==========================
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copiar manifestos primeiro (para cache eficiente)
+# Copiar apenas o package.json e lock para cache eficiente
 COPY package*.json ./
 
-# Configurar registry oficial e instalar dependências
-RUN npm config set registry https://registry.npmjs.org/ \
-    && npm install --legacy-peer-deps
+# Instalar TODAS as dependências (incluindo dev)
+# Mantém compatibilidade com Styled Components + PostCSS
+RUN npm install --legacy-peer-deps
 
-# Copiar o restante do código
+# Copiar o restante do código da aplicação
 COPY . .
 
-# Build de produção (gera .next, dist, etc)
+# Garantir presença dos pacotes de pipeline CSS (caso ausentes)
+RUN npm install --save-dev postcss postcss-loader css-loader autoprefixer --legacy-peer-deps
+
+# Habilitar modo produção e gerar build
+ENV NODE_ENV=production
 RUN npm run build
 
-# Etapa 2: Imagem final para servir o frontend
+# ==========================
+# Etapa 2: Runner (produção)
+# ==========================
 FROM node:20-alpine AS runner
 
 WORKDIR /app
 
-# Copiar apenas o necessário da etapa anterior
+# Copiar apenas os artefatos necessários do build
 COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/node_modules ./node_modules
 
-# Definir variáveis de ambiente de produção
+# Definir variáveis de ambiente para produção
 ENV NODE_ENV=production
 ENV PORT=3000
+ENV NEXT_TELEMETRY_DISABLED=1
 
 EXPOSE 3000
 
-# Rodar Next.js no modo standalone
+# Iniciar o servidor Next.js em modo standalone de produção
 CMD ["npm", "start"]
